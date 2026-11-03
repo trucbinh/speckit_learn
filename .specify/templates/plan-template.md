@@ -18,29 +18,43 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Language/Version**: Go ([select version when required; do not assume one])
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Primary Dependencies**: [Select only dependencies required by this feature; framework and database driver are unspecified]
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Storage**: PostgreSQL
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Testing**: Go unit tests, API contract/handler tests, and PostgreSQL-backed integration tests as applicable
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Target Platform**: [Determine from deployment requirements; hosting platform is unspecified]
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Project Type**: REST API
 
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Performance Goals**: [Feature-specific measurable goals or NEEDS CLARIFICATION]
 
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
+**Constraints**: Preserve documented API compatibility; validate request inputs; use reviewed PostgreSQL migrations and transactions for atomic changes; every application-owned table includes the required audit and soft-delete columns
 
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: [Feature-specific scale or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Before Phase 0 research and again after Phase 1 design, verify:
+
+- The feature's REST paths, methods, request/response behavior, status codes, and
+  compatibility/versioning approach are specified.
+- Go, REST, and PostgreSQL remain the selected implementation requirements; no
+  unspecified Go version, framework, driver, or hosting platform is treated as decided.
+- PostgreSQL schema changes have an ordered migration and a compatibility/rollout plan;
+  writes requiring atomicity have explicit transaction boundaries.
+- Every application-owned PostgreSQL table includes `created_at`, `created_by`,
+  `updated_at`, `updated_by`, boolean `deleted`, and `deleted_at`; soft-delete behavior
+  and migration coverage are defined.
+- Request validation, consistent client-safe errors, authorization where applicable,
+  and least-privilege database access are addressed.
+- Tests cover changed Go behavior, API behavior, and PostgreSQL persistence/migrations
+  as applicable.
 
 ## Project Structure
 
@@ -109,5 +123,4 @@ directories captured above]
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| [Constitution deviation] | [specific need and impact] | [simpler compliant alternative considered] |

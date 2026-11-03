@@ -77,6 +77,9 @@
 
 - What happens when [boundary condition]?
 - How does system handle [error scenario]?
+- For API changes, what happens for malformed or invalid request data, missing resources,
+  and unsupported or incompatible client requests?
+- For persistence changes, what happens when a migration or a multi-write transaction fails?
 
 ## Requirements *(mandatory)*
 
@@ -92,6 +95,15 @@
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
+
+For REST API or persistence changes, requirements MUST also specify applicable endpoint
+request/response behavior and HTTP status codes, compatibility expectations for breaking
+changes, boundary validation and client-safe error behavior, authorization needs, and
+PostgreSQL integrity, migration, and transaction rules. Every application-owned
+PostgreSQL table MUST include `created_at`, `created_by`, `updated_at`, `updated_by`,
+boolean `deleted`, and `deleted_at`; specify how soft-deleted rows are handled when relevant.
+State only requirements relevant to the feature; do not assume a contract format, Go version,
+framework, database driver, or hosting platform.
 
 *Example of marking unclear requirements:*
 
