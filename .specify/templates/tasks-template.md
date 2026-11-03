@@ -65,7 +65,7 @@ are part of completion even when not separately requested.
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Add ordered PostgreSQL migrations for required schema changes, including `created_at`, `created_by`, `updated_at`, `updated_by`, boolean `deleted`, and `deleted_at` on every application-owned table
+- [ ] T004 Add ordered PostgreSQL migrations for required schema changes, including `created_at`, `created_by`, `updated_at`, `updated_by`, boolean `deleted`, and `deleted_at` on every application table, including join and association tables
 - [ ] T005 [P] Implement authentication/authorization framework
 - [ ] T006 [P] Setup API routing and middleware structure
 - [ ] T007 Create base models/entities that all stories depend on

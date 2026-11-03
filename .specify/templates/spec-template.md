@@ -99,11 +99,11 @@
 For REST API or persistence changes, requirements MUST also specify applicable endpoint
 request/response behavior and HTTP status codes, compatibility expectations for breaking
 changes, boundary validation and client-safe error behavior, authorization needs, and
-PostgreSQL integrity, migration, and transaction rules. Every application-owned
-PostgreSQL table MUST include `created_at`, `created_by`, `updated_at`, `updated_by`,
-boolean `deleted`, and `deleted_at`; specify how soft-deleted rows are handled when relevant.
-State only requirements relevant to the feature; do not assume a contract format, Go version,
-framework, database driver, or hosting platform.
+PostgreSQL integrity, migration, and transaction rules. Every PostgreSQL table created or
+managed by the application, including join and association tables, MUST include `created_at`,
+`created_by`, `updated_at`, `updated_by`, boolean `deleted`, and `deleted_at`; specify how
+soft-deleted rows are handled when relevant. State only requirements relevant to the feature;
+do not assume a contract format, Go version, framework, database driver, or hosting platform.
 
 *Example of marking unclear requirements:*
 

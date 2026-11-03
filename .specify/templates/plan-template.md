@@ -32,7 +32,7 @@
 
 **Performance Goals**: [Feature-specific measurable goals or NEEDS CLARIFICATION]
 
-**Constraints**: Preserve documented API compatibility; validate request inputs; use reviewed PostgreSQL migrations and transactions for atomic changes; every application-owned table includes the required audit and soft-delete columns
+**Constraints**: Preserve documented API compatibility; validate request inputs; use reviewed PostgreSQL migrations and transactions for atomic changes; every application table, including join and association tables, includes the required audit and soft-delete columns
 
 **Scale/Scope**: [Feature-specific scale or NEEDS CLARIFICATION]
 
@@ -48,9 +48,10 @@ Before Phase 0 research and again after Phase 1 design, verify:
   unspecified Go version, framework, driver, or hosting platform is treated as decided.
 - PostgreSQL schema changes have an ordered migration and a compatibility/rollout plan;
   writes requiring atomicity have explicit transaction boundaries.
-- Every application-owned PostgreSQL table includes `created_at`, `created_by`,
-  `updated_at`, `updated_by`, boolean `deleted`, and `deleted_at`; soft-delete behavior
-  and migration coverage are defined.
+- Every PostgreSQL table created or managed by the application, including join and
+  association tables, includes `created_at`, `created_by`, `updated_at`, `updated_by`,
+  boolean `deleted`, and `deleted_at`; soft-delete behavior and migration coverage are
+  defined.
 - Request validation, consistent client-safe errors, authorization where applicable,
   and least-privilege database access are addressed.
 - Tests cover changed Go behavior, API behavior, and PostgreSQL persistence/migrations

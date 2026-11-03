@@ -42,13 +42,13 @@ by a reviewed, ordered migration that can be applied reproducibly; application c
 migrations MUST remain compatible during the documented rollout. Database changes and
 related writes that must succeed or fail together MUST execute in a transaction. The schema
 MUST enforce applicable integrity constraints, and queries MUST pass values as parameters
-rather than concatenate untrusted input. Every application-owned PostgreSQL table MUST
-include the audit columns `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted`
-(boolean), and `deleted_at`. Soft deletion MUST set `deleted` to true and record the deletion
-time in `deleted_at`; normal reads MUST exclude soft-deleted rows unless the operation
-explicitly needs them. Migrations, models, and persistence tests MUST preserve these columns
-and their semantics. This protects data consistency and supports accountability and safe
-change over time.
+rather than concatenate untrusted input. Every PostgreSQL table created or managed by the
+application, including join and association tables, MUST include the audit columns
+`created_at`, `created_by`, `updated_at`, `updated_by`, `deleted` (boolean), and `deleted_at`.
+Soft deletion MUST set `deleted` to true and record the deletion time in `deleted_at`; normal
+reads MUST exclude soft-deleted rows unless the operation explicitly needs them. Migrations,
+models, and persistence tests MUST preserve these columns and their semantics. This protects
+data consistency and supports accountability and safe change over time.
 
 ### IV. Boundary Validation, Errors, and Security
 The API MUST validate untrusted path, query, header, and body inputs at the request boundary
@@ -83,12 +83,13 @@ feature requirement or an explicit project decision.
 
 API contracts MUST state compatibility expectations, and database plans MUST state how
 migrations and transaction boundaries preserve data integrity. Tests MUST exercise behavior
-at the API and persistence boundaries when those boundaries change. Every application-owned
-PostgreSQL table MUST have `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted`
-(boolean), and `deleted_at` columns; plans and specifications MUST account for them when
-defining or changing schema. No particular column types beyond `deleted` being boolean,
-defaults, nullability, API description format, migration tool, test library, or deployment
-environment is mandated unless specified by a feature or an explicit project decision.
+at the API and persistence boundaries when those boundaries change. Every PostgreSQL table
+created or managed by the application, including join and association tables, MUST have
+`created_at`, `created_by`, `updated_at`, `updated_by`, `deleted` (boolean), and `deleted_at`
+columns; plans and specifications MUST account for them when defining or changing schema.
+No particular column types beyond `deleted` being boolean, defaults, nullability, API
+description format, migration tool, test library, or deployment environment is mandated
+unless specified by a feature or an explicit project decision.
 
 ## Development Workflow
 
@@ -99,7 +100,7 @@ All work proceeds through these steps unless a narrower task is explicitly justi
 3. Implement the smallest idiomatic Go change that satisfies the accepted requirement.
 4. Add and run focused unit, API contract or handler, and PostgreSQL integration tests as
    applicable; verify migration and transaction behavior for data changes, including the
-   required audit columns and soft-delete semantics for every application-owned table.
+   required audit columns and soft-delete semantics for every application table.
 5. Review the result for security, compatibility, maintainability, and consistency across
    specification, plan, tasks, code, tests, and migrations.
 
